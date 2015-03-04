@@ -131,7 +131,7 @@ o.write('<html><head><title>AWS Cheap</title></head><body>')
 o.write('AWS Cheap<p>')
 
 for html_file in html_files:
-  o.write('<a href="{}">{}</a>'.format(html_file, html_file))
+  o.write('<a href="{}">{}</a><br>'.format(html_file, html_file))
   o.write("\n")
 
 o.write('</body></html>')
