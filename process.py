@@ -57,6 +57,7 @@ for filer in files:
   ris = data.get('ReservedInstancesOfferings')
   if ris:
     output_name = re.sub(r'json', 'html', filer)
+    output_name = re.sub(r'::', '__', output_name)
     o = open(output_name, 'w')
     o.write("<html><body>\n")
     o.write('<table border = "1" cellspacing="0" cellpadding="2">')
