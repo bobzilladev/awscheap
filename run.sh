@@ -1,5 +1,5 @@
 #!/bin/sh
 
-rm html/*
+rm html/*-*
 ./process.py json/*.json
 
