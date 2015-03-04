@@ -46,6 +46,7 @@ instancePrice['i2.4xlarge'] = 3.41
 instancePrice['i2.8xlarge'] = 6.82
 instancePrice['hi1.4xlarge'] = 3.1
 
+html_files = []
 
 for filer in files:
   #realm = re.sub(r'\.json', '', filer)
@@ -117,10 +118,23 @@ for filer in files:
     o.write("</body></html>\n")
     o.close()
 
-    if not has_data:
-      print "deleteing {}".format(output_name)
+    if has_data:
+      html_file = re.sub('html/', '', output_name)
+      html_files.append(html_file)
+    else:
+      print "deleting {}".format(output_name)
       os.remove(output_name)
 
+o = open('html/index.html', 'w')
 
+o.write('<html><head><title>AWS Cheap</title></head><body>')
+o.write('AWS Cheap<p>')
+
+for html_file in html_files:
+  o.write('<a href="{}">{}</a>'.format(html_file, html_file))
+  o.write("\n")
+
+o.write('</body></html>')
+o.close()
 
 print "done"
