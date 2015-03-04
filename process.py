@@ -18,9 +18,6 @@ else:
   print "need json args"
   sys.exit(-1)
 
-# {u'OfferingType': u'Medium Utilization', u'AvailabilityZone': u'ap-northeast-1b', u'InstanceTenancy': u'default', u'UsagePrice': 0.121, u'RecurringCharges': [], u'Marketplace': True, u'InstanceType': u'c3.xlarge', u'CurrencyCode': u'USD', u'ProductDescription': u'Linux/UNIX', u'FixedPrice': 100.0, u'Duration': 5184000, u'ReservedInstancesOfferingId': u'13fc93e2-5827-4a94-b006-03f1a46f426b', u'PricingDetails': [{u'Count': 1, u'Price': 100.0}]}
-headers = ['OfferingType', 'AvailabilityZone', 'InstanceTenancy', 'ProductDescription', 'Months', 'Count', 'FixedPrice', 'Recurring', 'Price', 'ImpliedPrice', 'RackRate', 'Savings', 'SavingsPercent']
-
 instancePrice = dict()
 instancePrice['c1.medium'] = 0.13
 instancePrice['c1.xlarge'] = 0.52
@@ -47,6 +44,9 @@ instancePrice['i2.8xlarge'] = 6.82
 instancePrice['hi1.4xlarge'] = 3.1
 
 html_files = []
+
+# {u'OfferingType': u'Medium Utilization', u'AvailabilityZone': u'ap-northeast-1b', u'InstanceTenancy': u'default', u'UsagePrice': 0.121, u'RecurringCharges': [], u'Marketplace': True, u'InstanceType': u'c3.xlarge', u'CurrencyCode': u'USD', u'ProductDescription': u'Linux/UNIX', u'FixedPrice': 100.0, u'Duration': 5184000, u'ReservedInstancesOfferingId': u'13fc93e2-5827-4a94-b006-03f1a46f426b', u'PricingDetails': [{u'Count': 1, u'Price': 100.0}]}
+headers = ['OfferingType', 'AvailabilityZone', 'InstanceTenancy', 'ProductDescription', 'Months', 'Count', 'FixedPrice', 'Recurring', 'Price', 'ImpliedPrice', 'ImpliedCost', 'RackRate', 'Savings', 'SavingsPercent']
 
 for filer in files:
   #realm = re.sub(r'\.json', '', filer)
@@ -101,6 +101,7 @@ for filer in files:
         ri['Recurring'] = recurring_charges + ri['UsagePrice']
         implied_price = amort_price + ri['UsagePrice'] + recurring_charges
         ri['ImpliedPrice'] = round(implied_price,4)
+        ri['ImpliedCost'] = "{} / mo".format(round(implied_price * 24 * 30,2))
 
         savings_hour = ri['RackRate'] - implied_price
         ri['Savings'] = "{} / mo".format(round(savings_hour * 24 * 30, 2))
